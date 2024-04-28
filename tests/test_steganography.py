@@ -39,8 +39,8 @@ def test_encode_decode(setup_image):
 
 def test_invalid_image_path():
     """Test encoding with an invalid image path."""
-    result = encode('invalid_image_path.png', "Test Message", 'output_test_image.png')
-    assert not result, "Encoding should fail for an invalid image path"
+    with pytest.raises(ValueError):
+        encode('invalid_image_path.png', "Test Message", 'output_test_image.png')
 
 def test_message_integrity(setup_image):
     input_image_path = setup_image

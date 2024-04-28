@@ -25,7 +25,7 @@ def encode(input_image_path: str, message: str, output_image_path: str) -> bool:
         return True
     except Exception as e:
         logging.error(f"Error encoding the image: {e}")
-        return False
+        raise ValueError(f"Failed to encode the image. {e}")
 
 def decode(image_path: str) -> str:
     try:
