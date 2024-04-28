@@ -77,5 +77,22 @@ def test_encoding_capacity(setup_image):
     if os.path.exists(output_image_path):
         os.remove(output_image_path)
 
+def test_unicode_message_integrity(setup_image):
+    """Test encoding and decoding with Unicode characters."""
+    input_image_path = setup_image
+    output_image_path = 'output_test_image_unicode.png'
+    original_message = "测试中文字符和🙂"  # Chinese characters and an emoji
+
+    result = encode(input_image_path, original_message, output_image_path)
+    assert result, "Encoding failed for Unicode message."
+
+    decoded_message = decode(output_image_path)
+    assert decoded_message == original_message, "Unicode message integrity compromised."
+
+    # Cleanup
+    if os.path.exists(output_image_path):
+        os.remove(output_image_path)
+
+
 
 # Additional tests for file input, corrupted data handling, etc., can be added here.

@@ -7,7 +7,10 @@ def encode(input_image_path: str, message: str, output_image_path: str) -> bool:
         encoded_img = img.copy()
         encoded_pixels = list(encoded_img.getdata())
 
-        binary_message = ''.join(format(ord(char), '08b') for char in message) + '00000000'
+        # Use bytes for the message and append a null byte sequence to indicate the end
+        byte_message = message.encode('utf-8') + b'\x00\x00\x00\x00'
+        binary_message = ''.join(format(byte, '08b') for byte in byte_message)
+        
         if len(binary_message) > len(encoded_pixels):
             logging.error("Image does not have enough capacity to hold the message.")
             return False
@@ -32,11 +35,16 @@ def decode(image_path: str) -> str:
         binary_message = ''
         for pixel in pixels:
             binary_message += str(pixel[0] & 1)
-            if binary_message.endswith('00000000'):
-                break
 
-        message = ''.join(chr(int(binary_message[i:i+8], 2)) for i in range(0, len(binary_message) - 8, 8))
-        return message
+        byte_list = []
+        for i in range(0, len(binary_message), 8):
+            byte = binary_message[i:i+8]
+            if byte == '00000000':
+                break
+            byte_list.append(int(byte, 2))
+
+        return bytes(byte_list).decode('utf-8')
     except Exception as e:
         logging.error(f"Error decoding the message: {e}")
         return ""
+
