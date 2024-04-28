@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from encryption import generate_key, encrypt_message, decrypt_message
+from steganography.encryption import generate_key, encrypt_message, decrypt_message
 
 @pytest.fixture
 def password():

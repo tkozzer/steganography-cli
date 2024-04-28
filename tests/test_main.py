@@ -1,6 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from main import decode_message, encode_message, main, run_interactive, run_non_interactive
+from steganography.main import decode_message, encode_message, main, run_interactive, run_non_interactive
+
 
 def test_main_help(capsys):
     test_args = ['program', '-h']
@@ -20,13 +21,13 @@ def test_main_no_args(capsys):
 
 def test_main_interactive_mode():
     test_args = ['program', 'interactive']
-    with patch('sys.argv', test_args), patch('main.run_interactive') as mock_interactive:
+    with patch('sys.argv', test_args), patch('steganography.main.run_interactive') as mock_interactive:
         main()
         mock_interactive.assert_called_once()
 
 def test_run_interactive_encode(mocker):
     mocker.patch('builtins.input', side_effect=['encode', 'input.png', '', 'Secret message', 'output.png'])
-    with patch('main.encode_message') as mock_encode:
+    with patch('steganography.main.encode_message') as mock_encode:
         run_interactive()
         mock_encode.assert_called_once_with('input.png', 'Secret message', 'output.png', None)
 
@@ -38,26 +39,26 @@ def test_run_interactive_invalid_action(mocker):
 
 def test_main_non_interactive_mode():
     test_args = ['program', '-i', 'input.png', '-m', 'Hello', '-o', 'output.png']
-    with patch('sys.argv', test_args), patch('main.run_non_interactive') as mock_non_interactive:
+    with patch('sys.argv', test_args), patch('steganography.main.run_non_interactive') as mock_non_interactive:
         main()
         mock_non_interactive.assert_called_once()
 
 
 def test_run_non_interactive_encode():
     args = MagicMock(input_image='input.png', message='Hello', output_image='output.png', decode=False, password=None)
-    with patch('main.encode_message') as mock_encode, patch('os.getenv', return_value=None):
+    with patch('steganography.main.encode_message') as mock_encode, patch('os.getenv', return_value=None):
         run_non_interactive(args)
         mock_encode.assert_called_once_with('input.png', 'Hello', 'output.png', None)
 
 # Similar tests can be added for decoding scenarios.
 
 def test_encode_message_success(mocker):
-    mocker.patch('main.encrypt_message', return_value='Encrypted')
-    mocker.patch('main.encode', return_value=True)
+    mocker.patch('steganography.main.encrypt_message', return_value='Encrypted')
+    mocker.patch('steganography.main.encode', return_value=True)
     encode_message('input.png', 'Secret', 'output.png', 'password')
 
 def test_decode_message_failure(mocker, caplog):
-    mocker.patch('main.decode', side_effect=Exception('Failed'))
+    mocker.patch('steganography.main.decode', side_effect=Exception('Failed'))
     with pytest.raises(Exception):
         decode_message('input.png', 'password')
     assert 'Error decoding the message' in caplog.text
@@ -65,8 +66,8 @@ def test_decode_message_failure(mocker, caplog):
 # Additional tests should handle different branches and exceptions.
 
 def test_encode_message_no_password(mocker):
-    mocker.patch('main.encrypt_message', side_effect=lambda x, y: x)  # No encryption applied
-    mocker.patch('main.encode', return_value=True)
+    mocker.patch('steganography.main.encrypt_message', side_effect=lambda x, y: x)  # No encryption applied
+    mocker.patch('steganography.main.encode', return_value=True)
     with patch('logging.info') as mock_log_info:
         encode_message('input.png', 'Test Message', 'output.png', None)
         mock_log_info.assert_called_with("Message encoded successfully into %s", 'output.png')

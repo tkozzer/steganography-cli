@@ -2,9 +2,9 @@ import argparse
 import sys
 import os
 import logging
-from encryption import encrypt_message, decrypt_message
+from steganography.encryption import encrypt_message, decrypt_message
 from steganography import encode, decode
-from utils import setup_logging
+from steganography.utils import setup_logging
 from dotenv import load_dotenv
 from typing import Optional
 
