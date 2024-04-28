@@ -1,6 +1,6 @@
 # Steganography CLI
 
-Steganography CLI is a command-line tool that enables users to hide and retrieve encrypted messages within images. This tool leverages Python's cryptography and Pillow libraries to provide robust encryption and image manipulation capabilities, respectively.
+Steganography CLI is a command-line tool that enables users to hide and retrieve encrypted messages within images. This tool leverages Python's cryptography and Pillow libraries to provide robust encryption and image manipulation capabilities, respectively. Note: This tool currently works only with lossless image formats like PNG, TIFF, and BMP.
 
 ## Features
 
