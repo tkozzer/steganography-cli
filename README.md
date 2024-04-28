@@ -19,6 +19,15 @@ Before you can use Steganography CLI, you need to set up your environment:
 - Python 3.8 or higher
 - Pip for installing Python packages
 
+### Clone the Repository
+
+First, clone the repository to your local machine using Git:
+
+```bash
+git clone https://github.com/tkozzer/steganography-cli.git
+cd steganography-cli
+```
+
 ### Dependencies
 
 Install all required dependencies with pip:
@@ -33,6 +42,13 @@ Optionally, you can set an environment variable for the encryption password:
 
 ```bash
 export STEG_PASS='your_encryption_password_here'
+```
+
+Additionally, you can set up your environment variables by copying the `.env.example` file to a `.env` file and modifying it as needed:
+
+```bash
+cp .env.example .env
+# Edit the .env file with your environment-specific settings
 ```
 
 ## Usage
