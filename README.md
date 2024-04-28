@@ -42,7 +42,7 @@ export STEG_PASS='your_encryption_password_here'
 To use the CLI, navigate to the directory containing the script and run:
 
 ```bash
-python steganography.py
+python -m steganography.main
 ```
 
 ### Command Line Arguments
@@ -62,7 +62,7 @@ The CLI supports the following arguments:
 Start interactive mode by adding 'interactive' at the end of the command:
 
 ```bash
-python steganography.py interactive
+python -m steganography.main interactive
 ```
 
 Follow the prompts to encode or decode messages.
@@ -72,13 +72,13 @@ Follow the prompts to encode or decode messages.
 Encoding a Message:
 
 ```bash
-python steganography.py -i path/to/input.png -m "Your secret message" -o path/to/output.png -p YourPassword
+python -m steganography.main -i path/to/input.png -m "Your secret message" -o path/to/output.png -p YourPassword
 ```
 
 Decoding a Message:
 
 ```bash
-python steganography.py -d -i path/to/image.png -p YourPassword
+python -m steganography.main -d -i path/to/image.png -p YourPassword
 ```
 
 ## Development
